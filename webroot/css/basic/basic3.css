@@ -1,0 +1,43 @@
+/*
+ * Themes : basic3
+ * colors
+ * 
+    #62587C : 98, 88, 124
+    blue violet
+    smoky
+    
+    
+    E198B2 : 225, 152, 178
+    red
+    shocking
+    
+    C15D63 : 193, 93, 99
+    fuzzy wuzzy brown
+    red
+
+
+    FEFEE8 : 254, 254, 232
+    orange white
+    yellow green
+
+
+    B39F73 : 179, 159, 115
+    mongoose
+    yellow orange
+
+ */
+.profile-box, .box-f {
+  background:#FEFEE8;background:rgba(254, 254, 232,.5)
+}
+.profile-box .member-details, .split-box .item-details-b {background:#C15D63;background:rgba(193, 93, 99,.5)}
+.box-f .heading h1, .box-f .heading {
+  background:#62587C;
+  background:rgba(98, 88, 124,.5);
+}
+
+.box-f .heading h1 a,
+.profile-box .member-details-container h1,
+.split-box .item-details-b .bazaar-name a,
+.split-box .item-details-b .item-detail .price a {
+ color:#000033;
+}

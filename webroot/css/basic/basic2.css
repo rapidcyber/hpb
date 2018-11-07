@@ -1,0 +1,17 @@
+/*
+ * Themes : basic2
+ * colors
+ * #A60000
+ * #bf3030
+ * #ff0000
+ * #ff4040
+ * #ff7373
+ */
+.profile-box, .box-f {
+  background:#ff7373;background:rgba(255,115,115,.5)
+}
+.profile-box .member-details, .split-box .item-details-b {background:#ff0000;background:rgba(255,0,0,.5)}
+.box-f .heading h1, .box-f .heading {
+  background:#bf3030;
+  background:rgba(191,48,48,.5)
+}
