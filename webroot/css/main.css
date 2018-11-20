@@ -586,3 +586,15 @@ form {
 .container .column, .container .columns {
   margin : 0;
 }
+/* Responsive */
+@media only screen and (min-width: 768px) and (max-width: 959px) {
+  .item-slider-container{
+      width: 715px
+  }
+  .split-box .item-details-b .lrg-img {
+      width: 304px;
+  }
+  .ftr .tier-2 .brand-links {
+      width: 62%;
+  }
+}

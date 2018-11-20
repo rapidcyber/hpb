@@ -2,6 +2,7 @@
 *  HPB Helpers Class
 *  @package HPB
 */
+console.assert(true,"Measured");
 HPB.Cookies;
 
 HPB.Helpers = {
@@ -21,19 +22,8 @@ HPB.Helpers = {
     });
     return arr;
   },
-  GetModels : function(str, str2, elem){
-    if( $(str).length > 0 ) { var arr = HPB.Helpers.getDataFromElems(str2, elem); return arr; }
-    else { return false }
-  },
-  TriggerOverlay : function(str,title,cls,isItem){
-    var c = cls ? 'hpb-overlay ' + cls : 'hpb-overlay', options;
-    if(typeof isItem != "undefined"){
-      options = {helpers:{title:{type:'inside'}},'topRatio':0.09,'minHeight':300,'type':'inline','title':title,'wrapCSS':c,'autoDimensions':false,'transitionIn':'none','transitionOut':'none','afterClose':function(){ $("body").find(".hpb-overlay").remove(); }};
-    } else {
-      options = {helpers:{title:{type:'inside'}},'type':'inline','title':title,'wrapCSS':c,'autoDimensions':false,'transitionIn':'none','transitionOut':'none','afterClose':function(){ $("body").find(".hpb-overlay").remove(); }};
-    }
-    (function(cb){
-      // $.fancybox.showLoading();
+  Preloader : function ($arg) {
+    if($arg != 'remove'){
       var preloader = document.createElement('div'),
           imgpre = document.createElement('img');
       preloader.setAttribute('id', 'fancybox-loading');
@@ -56,11 +46,29 @@ HPB.Helpers = {
         "transition-timing-function" : "cubic-bezier(.22,.61,.36,1)"
       });
       $('#root').prepend($(preloader));
+    } else {
+      $('#fancybox-loading').remove();
+    }
+  },
+  GetModels : function(str, str2, elem){
+    if( $(str).length > 0 ) { var arr = HPB.Helpers.getDataFromElems(str2, elem); return arr; }
+    else { return false }
+  },
+  TriggerOverlay : function(str,title,cls,isItem){
+    var c = cls ? 'hpb-overlay ' + cls : 'hpb-overlay', options;
+    if(typeof isItem != "undefined"){
+      options = {helpers:{title:{type:'inside'}},'topRatio':0.09,'minHeight':300,'type':'inline','title':title,'wrapCSS':c,'autoDimensions':false,'transitionIn':'none','transitionOut':'none','afterClose':function(){ $("body").find(".hpb-overlay").remove(); }};
+    } else {
+      options = {helpers:{title:{type:'inside'}},'type':'inline','title':title,'wrapCSS':c,'autoDimensions':false,'transitionIn':'none','transitionOut':'none','afterClose':function(){ $("body").find(".hpb-overlay").remove(); }};
+    }
+    (function(cb){
+      // $.fancybox.showLoading();
+      HPB.Helpers.Preloader('open');
       window.setTimeout(function(){ cb.apply(); },1600);
     })(function(){
       // $.fancybox.open( items, opts, index );
       $.fancybox.open( $(str), options )
-      $('#fancybox-loading').remove();
+      HPB.Helpers.Preloader('remove');
         // $.fancybox(str,options);
         // $.fancybox.hideLoading();
     });
@@ -238,6 +246,7 @@ HPB.Events = {
         HPB.Events.MenuSlider(e,$(this)); }).dblclick(function(e){ window.location.href=$(this).attr("href"); return true; });
 
       $(".split-box .item-container-b").find("img").click(function(e){
+        HPB.Helpers.Preloader('open');
         var me = $(this),
             idx = me.parents('span').index(),
             data = HPB.Models.CompleteList(),
@@ -249,7 +258,8 @@ HPB.Events = {
             zoom = details.find('.zoom-item'),
             $limg = details.find('img'),
             src = me.attr('src'),
-            sizes = me.siblings('input');
+            src = src.substring(HPB.Globals.WebRoot.length),
+            sizes = me.siblings('input'),
             img = src.split('/');
         $('.split-box .item-container-b').find('img').removeClass('current');
         me.addClass('current');
@@ -269,8 +279,12 @@ HPB.Events = {
         price.html("<a>"+ ( (data[idx].price).toString().indexOf('P') > -1 ? data[idx].price : 'P '+ data[idx].price ) + "</a>");
         descrip.text(data[idx].descrip);
         link.attr("href",HPB.Globals.WebRoot+'bazaars/profile/'+data[idx].link+'/'+data[idx].itemId);
-        $limg.attr('src', HPB.Globals.WebRoot+'img/uploads/images/thumb/large/'+img[7])
-        zoom.attr('href', HPB.Globals.WebRoot+'img/uploads/images/thumb/large/'+img[7]);
+
+        $limg.attr('src', HPB.Globals.WebRoot+'img/uploads/images/thumb/large/'+img[5]).on('load',function(){
+          HPB.Helpers.Preloader('remove');
+        });
+        zoom.attr('href', HPB.Globals.WebRoot+'img/uploads/images/thumb/large/'+img[5]);
+
         e.preventDefault();
         return false;
       });
